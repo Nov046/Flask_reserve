@@ -1,0 +1,44 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}予約管理画面{% endblock %}
+
+{% block content %}
+<style>
+  .welcome{
+    padding-top: 10px;
+  }
+
+  .content{
+    padding-top: 30px;
+  }
+</style>  
+
+  <div class="container">
+    <div class="welcome">
+      <p>ようこそ{{ current_user.username }}さん</p>
+    </div>
+    <h1>予約管理画面</h1>
+    <a href="/reserve" role="button">新規予約</a>
+    <a href="/logout" role="button">ログアウト</a>
+    {% for reservation in reservations %}
+    <article>
+      <div class="content">
+        <p>予約者名：{{ reservation.auther_name }} &emsp; 予約日時：{{ reservation.created_at.strftime("%Y/%m/%d %H:%M:%S") }}</p>
+        <h4>場所：{{ reservation.location }}</h4>
+        <h4>目的：{{ reservation.purpose }}</h4>
+        <h4>
+          時間 
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-check" viewBox="0 0 16 16">
+            <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+          </svg>
+        ：{{ reservation.start_time }} から {{ reservation.end_time }} まで
+      </h4>
+      {% if current_user.id == reservation.auther_id: %}
+        <a href="/{{ reservation.id }}/update" role="button">編集</a>
+        <a href="/{{ reservation.id }}/delete" role="button">削除</a>
+      {% endif %}
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+{% endblock%}

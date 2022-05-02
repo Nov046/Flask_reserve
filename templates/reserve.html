@@ -1,0 +1,20 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}新規登録画面{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1>新規登録</h1>
+  <form method="POST">
+    <label for="location" class="form-label">場所</label>
+    <input type="text" name="location" class="form-control">
+    <label for="purpose" class="form-label">目的</label>
+    <input type="text" name="purpose" class="form-control">
+    <label for="start-time">開始時間</label>
+    <input type="datetime-local" name="start-time" class="form-control">
+    <label for="end-time">終了時間</label>
+    <input type="datetime-local" name="end-time" class="form-control">
+    <input type="submit" value="予約">
+    <a href="/" role="button">戻る</a>
+  </form>
+</div>
+{% endblock%}
