@@ -1,0 +1,14 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}編集画面{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1>ユーザー名の変更</h1>
+  <form method="POST">
+    <label for="location" class="form-label">ユーザー名</label>
+    <input type="text" name="location" value="{{ user.username }}" class="form-control">
+    <input type="submit" value="更新">
+    <a href="/" role="button">戻る</a>
+  </form>
+</div>
+{% endblock%}

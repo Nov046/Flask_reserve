@@ -59,13 +59,18 @@ def signup():
   if request.method == "POST":
     username = request.form.get("username")
     password = request.form.get("password")
+    c_password = request.form.get("c-password")
 
-    user = User(username=username, password=generate_password_hash(password, method='sha256'))
-    
-    db.session.add(user)
-    db.session.commit()
-    
-    return redirect("/login")
+    if password == c_password:
+      user = User(username=username, password=generate_password_hash(password, method='sha256'))
+      
+      db.session.add(user)
+      db.session.commit()
+
+      return redirect("/login")
+
+    else:
+      return redirect("/error")
 
   else:
     return render_template("signup.html")
@@ -114,6 +119,10 @@ def reserve():
 @login_required
 def complete():
   return render_template("complete.html")
+  
+@app.route("/error")
+def error():
+  return render_template("error.html")
 
 @app.route("/<int:id>/update", methods=["GET", "POST"])
 @login_required
@@ -134,6 +143,19 @@ def update(id):
 
   else:
     return redirect("/")
+
+@app.route("/<int:id>/userupdate", methods=["GET", "POST"])
+@login_required
+def userupdate(id):
+  user = User.query.get(id)
+
+  if request.method == "GET":
+    return render_template("user_update.html",user=user)
+  else:
+    user.username = request.form.get("username")
+
+    db.session.commit()
+    return redirect("/complete")
 
 @app.route("/<int:id>/delete", methods=["GET"])
 @login_required
